@@ -1,8 +1,8 @@
 Package: simpleVenn
 Title: Create simple Venn Diagrams
 Version: 0.1
-Authors@R: "Saurabh Gaur <sr7@saurabhgaur.com> "
+Authors@R: "Saurabh Gaur <sr7@saurabhgaur.com> [aut,cre]"
 Description: Create simple Venn Diagrams using htmlwidgets
 Depends: R (>= 3.2.1)
-License: 
+License:
 LazyData: true

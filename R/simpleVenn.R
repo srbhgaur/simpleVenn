@@ -5,11 +5,11 @@
 #' @import htmlwidgets
 #'
 #' @export
-simpleVenn <- function(message, width = NULL, height = NULL) {
+simpleVenn <- function(jsondata, width = NULL, height = NULL) {
 
   # forward options using x
   x = list(
-    message = message
+    jsondata = jsondata
   )
 
   # create widget
@@ -35,4 +35,14 @@ simpleVennOutput <- function(outputId, width = '100%', height = '400px'){
 renderSimpleVenn <- function(expr, env = parent.frame(), quoted = FALSE) {
   if (!quoted) { expr <- substitute(expr) } # force quoted
   shinyRenderWidget(expr, simpleVennOutput, env, quoted = TRUE)
+}
+
+#' custom html function for sunburst
+#' @import htmltools
+simpleVenn_html <- function(id, style, class, ...){
+  tagList(
+    tags$div( id = id, class = class, style = style
+              ,tags$div(class = "chart-main",id="venn")
+    )
+  )
 }

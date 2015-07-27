@@ -13,8 +13,17 @@ HTMLWidgets.widget({
   },
 
   renderValue: function(el, x, instance) {
+      //SimpleVenn Fixed numbers 2/3 Fixed Area
+      if(x.count==2){
+        //Make two circles and label them
 
-    el.innerText = x.message;
+      } else if(x.count==3){
+        //Make two circles and label them
+
+      }
+
+
+      //SimpleVenn Fixed numbers Area as per value
 
   },
 
