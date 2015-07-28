@@ -13,6 +13,10 @@ HTMLWidgets.widget({
   },
 
   renderValue: function(el, x, instance) {
+      var w = x.width;  //width
+      var d = 0.25*w;     //overlap d = 4/(1+1/0.25) = 0.8r
+      var r = (w+d)/4;          //radius
+
       var vis = d3.select("#venn").append("svg");
        var drawCircles = function(){
         var circles = vis.selectAll("circle")
@@ -32,31 +36,37 @@ HTMLWidgets.widget({
                         .append("text")
                         .text(function(d) {return d.label})
                         .attr("x",function(d) {return d.x})
-                        .attr("y",function(d) {return d.y});
+                        .attr("y",function(d) {return d.y})
+                        .style("text-anchor","middle")
+                        .style("font-family","calibri");
       }
       //SimpleVenn Fixed numbers 2/3 Fixed Area
       if(x.count==2){
         //Make two circles and label them
-        var circledata = [{"cx":50,"cy":50,"r":50,"color":"red"},
-                          {"cx":120,"cy":50,"r":50,"color":"blue"}];
-        var labelData  = [{"label": (x.labels[0]||"A") + " " + x.setdata[0].size,"x":30,"y":30},
-                          {"label": (x.labels[1]||"B") + " " + x.setdata[1].size,"x":100,"y":30},
-                          {"label": x.setdata[2].size,"x":80,"y":50}]
+        var h=2*r;    //height
+        vis.attr("width",w).attr("height",h);
+        var circledata = [{"cx":r,"cy":r,"r":r,"color":"red"},
+                          {"cx":w-r,"cy":r,"r":r,"color":"blue"}];
+        var labelData  = [{"label": x.labels[0] + " (" + x.setdata[0].size+")","x":0.6*r,"y":0.6*r},
+                          {"label": x.labels[1] + " (" + x.setdata[1].size+")","x":2.6*r,"y":0.6*r},
+                          {"label": "("+x.setdata[2].size+")","x":1.6*r,"y":r}]
         drawCircles();
         assignLabels();
 
       } else if(x.count==3){
         //Make two circles and label them
-         var circledata = [{"cx":50,"cy":50,"r":50,"color":"red"},
-                          {"cx":120,"cy":50,"r":50,"color":"blue"},
-                          {"cx":85,"cy":111,"r":50,"color":"green"}];
-        var labelData  = [{"label": (x.labels[0]||"A") + " " + x.setdata[0].size,"x":30,"y":30},
-                          {"label": (x.labels[1]||"B") + " " + x.setdata[1].size,"x":100,"y":30},
-                          {"label": (x.labels[2]||"C") + " " + x.setdata[0].size,"x":80,"y":111},
-                          {"label": "AB " + x.setdata[3].size,"x":80,"y":50},
-                          {"label": "AC " + x.setdata[4].size,"x":50,"y":90},
-                          {"label": "BC " + x.setdata[5].size,"x":110,"y":90},
-                          {"label": "ABC " + x.setdata[6].size,"x":80,"y":70}]
+        h=2*r+(1.732/2)*(2*r-d);
+         vis.attr("width",w+20).attr("height",h+20);
+         var circledata = [{"cx":r,"cy":r,"r":r,"color":"red"},
+                          {"cx":w-r,"cy":r,"r":r,"color":"blue"},
+                          {"cx":2*r-0.5*d,"cy":r+(1.732/2)*(2*r-d),"r":r,"color":"green"}];
+        var labelData  = [{"label": x.labels[0] + " (" + x.setdata[0].size+")","x":0.6*r,"y":0.6*r},
+                          {"label": x.labels[1] + " (" + x.setdata[1].size+")","x":2.6*r,"y":0.6*r},
+                          {"label": x.labels[2] + " (" + x.setdata[2].size+")","x":1.6*r,"y":2*r+0.1*h},
+                          {"label": "("+ x.setdata[3].size+")","x":1.6*r,"y":0.8*r},
+                          {"label": "("+ x.setdata[4].size+")","x":r,"y":1.7*r},
+                          {"label": "("+ x.setdata[5].size+")","x":2.2*r,"y":1.7*r},
+                          {"label": "("+ x.setdata[6].size+")","x":1.6*r,"y":1.4*r}]
         drawCircles();
         assignLabels();
       }
